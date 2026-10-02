@@ -1,0 +1,367 @@
+/* css/style.css — Expense & Budget Visualizer styles */
+/* ==========================================================================
+   1. VARIABLES & THEMING (Light & Dark Mode)
+   ========================================================================== */
+:root {
+  --bg-color: #f8f9fa;
+  --card-bg: #ffffff;
+  --text-color: #212529;
+  --border-color: #dee2e6;
+  --primary-color: #0d6efd;
+  --primary-hover: #0b5ed7;
+  --danger-color: #dc3545;
+  --danger-hover: #bb2d3b;
+  --error-color: #dc3545;
+  --muted-text: #6c757d;
+  --warning-bg: #fff3cd;
+  --warning-text: #664d03;
+  --warning-border: #ffe69c;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+  --bg-color: #121212;
+  --card-bg: #1e1e1e;
+  --text-color: #e0e0e0;
+  --border-color: #333333;
+  --primary-color: #3d8bfd;
+  --primary-hover: #2b7fff;
+  --danger-color: #e55353;
+  --danger-hover: #c93b3b;
+  --error-color: #ff6b6b;
+  --muted-text: #a0a0a0;
+  --warning-bg: #332701;
+  --warning-text: #ffda6a;
+  --warning-border: #664d03;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+}
+
+/* ==========================================================================
+   2. GLOBAL BASE STYLES
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.5;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ==========================================================================
+   3. HEADER & THEME TOGGLE
+   ========================================================================== */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+#theme-toggle {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+#theme-toggle:hover {
+  background-color: var(--border-color);
+}
+
+/* ==========================================================================
+   4. STORAGE BANNER (STORAGE WARNING)
+   ========================================================================== */
+.banner {
+  background-color: var(--warning-bg);
+  color: var(--warning-text);
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border: 1px solid var(--warning-border);
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   5. LAYOUT & RESPONSIVE GRID
+   ========================================================================== */
+main {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 768px) {
+  main {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+section {
+  background-color: var(--card-bg);
+  padding: 24px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* ==========================================================================
+   6. FORMS & INPUT CONTROLS
+   ========================================================================== */
+#transaction-form {
+  margin-bottom: 30px;
+}
+
+.field-group {
+  margin-bottom: 16px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+  border-color: var(--primary-color);
+}
+
+button[type="submit"],
+#add-category-btn {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  border: none;
+  padding: 11px 20px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.2s ease;
+}
+
+button[type="submit"]:hover,
+#add-category-btn:hover {
+  background-color: var(--primary-hover);
+}
+
+#category-manager {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Error messages and limit messages */
+.error-msg {
+  color: var(--error-color);
+  font-size: 0.85rem;
+  display: block;
+  margin-top: 5px;
+  min-height: 1.2em;
+}
+
+#cat-limit-msg {
+  color: var(--muted-text);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+/* ==========================================================================
+   7. DATA SECTION (Balance, Chart, Transactions)
+   ========================================================================== */
+/* Balance Display */
+#balance-display {
+  text-align: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 20px;
+}
+
+#balance-amount {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+/* Chart Section */
+#chart-section {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+#chart-container {
+  position: relative;
+  max-width: 320px;
+  margin: 0 auto;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#chart-placeholder,
+#list-placeholder {
+  color: var(--muted-text);
+  text-align: center;
+  font-style: italic;
+  padding: 20px 0;
+}
+
+/* Transaction List & Header */
+#list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+#sort-control {
+  width: auto;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+}
+
+#transaction-list {
+  list-style: none;
+  max-height: 380px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.transaction-item {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  margin-bottom: 10px;
+  background-color: var(--card-bg);
+}
+
+.tx-name {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tx-amount {
+  font-weight: 700;
+  text-align: right;
+}
+
+.tx-category {
+  font-size: 0.85rem;
+  color: var(--muted-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.delete-btn {
+  background-color: var(--danger-color);
+  color: #ffffff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.delete-btn:hover {
+  background-color: var(--danger-hover);
+}
+
+/* ==========================================================================
+   8. TOAST NOTIFICATION & UTILITIES
+   ========================================================================== */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: var(--danger-color);
+  color: #ffffff;
+  padding: 12px 20px;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px var(--shadow-color);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out;
+}
+
+.toast-close {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Class Helper untuk menyembunyikan elemen */
+.hidden {
+  display: none !important;
+}
